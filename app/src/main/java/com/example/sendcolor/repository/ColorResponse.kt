@@ -1,28 +1,35 @@
 package com.example.sendcolor.repository
 
-import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
-import kotlinx.parcelize.Parcelize
 
 data class ColorResponse(
-    @SerializedName("Color") val color: ColorDetails
+    val color: ColorDetails
 )
 
-@Parcelize
 data class ColorDetails(
     val name: String,
-    val hexCode: String,
-    val rgbCode: String,
-    val rybPercentages: RybPercentages,
-    val colorTemperature: String,
-    val colorDescription: String,
-    val twoHexOfColorsThatMatch: List<String>,
-    val colorTerminology: String
-) : Parcelable
+    @SerializedName("hex") val hexCode: String?,
+    @SerializedName("rgb") val rgb: RGB?,
+    val hsl: String,
+    val luminance: Double,
+    val description: String,
+    val psychologyTags: List<String>,
+    val colorPalette: List<ColorItem>,
+    val complementaryColor: String,
+    val hexVariations: List<String>,
+    val colorCategory: String,
+    val designUsageSuggestions: List<String>,
+    val accessibleOnWhite: Boolean,
+    val accessibleOnBlack: Boolean
+)
 
-@Parcelize
-data class RybPercentages(
-    val r: String,
-    val y: String,
-    val b: String
-) : Parcelable
+data class RGB(
+    val red: Int,
+    val green: Int,
+    val blue: Int
+)
+
+data class ColorItem(
+    val name: String,
+    val hex: String
+)

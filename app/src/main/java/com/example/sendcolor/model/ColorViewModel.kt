@@ -7,6 +7,8 @@ import androidx.lifecycle.ViewModel
 import com.example.sendcolor.RetrofitConfig.apiService
 import com.example.sendcolor.repository.ColorDetails
 import com.example.sendcolor.repository.ColorResponse
+import okhttp3.MediaType.Companion.toMediaType
+import okhttp3.RequestBody.Companion.toRequestBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -24,7 +26,11 @@ class ColorViewModel : ViewModel() {
     fun fetchColorDetails(hex: String) {
         _loading.value = true
 
-        apiService.getColorInfo(hex).enqueue(object : Callback<ColorResponse> {
+        val hexWithQuotes = "\"$hex\"" // garante que a string seja interpretada como JSON string
+        val body = hexWithQuotes.toRequestBody("text/plain".toMediaType())
+
+
+        apiService.getColorInfo(body).enqueue(object : Callback<ColorResponse> {
             override fun onResponse(call: Call<ColorResponse>, response: Response<ColorResponse>) {
                 Log.d("ColorViewModel", "Response Body: ${response.body()}")
                 Log.d("ColorViewModel", "HTTP Code: ${response.code()}")
